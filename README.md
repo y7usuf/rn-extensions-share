@@ -11,7 +11,7 @@ Fork from: [react-native-share-extension](https://github.com/alinz/react-native-
 
 # Example
 
-[RN-Extensions-Share](https://github.com/djorkaeffalexandre/share-extension)
+[RN-Extensions-Share-Example](https://github.com/djorkaeffalexandre/share-extension)
 
 # Installation
 
@@ -236,7 +236,7 @@ package com.sample1.share;
 // import build config
 import com.sample1.BuildConfig;
 
-import com.alinz.parkerdan.shareextension.SharePackage;
+import com.djorkaeff.alexandre.shareextension.SharePackage;
 
 import android.app.Application;
 
@@ -288,7 +288,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
-import com.alinz.parkerdan.shareextension.SharePackage;
+import com.djorkaeff.alexandre.shareextension.SharePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -328,7 +328,7 @@ public class MainApplication extends Application implements ReactApplication {
     android:configChanges="orientation"
     android:label="@string/title_activity_share"
     android:screenOrientation="portrait"
-    android:theme="@style/Theme.Share.Transparent" >
+    android:theme="@style/AppTheme" >
    <intent-filter>
      <action android:name="android.intent.action.SEND" />
      <category android:name="android.intent.category.DEFAULT" />
@@ -336,11 +336,13 @@ public class MainApplication extends Application implements ReactApplication {
      <data android:mimeType="text/plain" />
     //  for sharing photos include
     <data android:mimeType="image/*" />
+    //  for all types
+    <data android:mimeType="*/*" />
    </intent-filter>
 </activity>
 ```
 
-in this new `activity` I have used 2 variables `@string/title_activity_share` and `@style/Theme.Share.Transparent`, you can add those in `res/values`.
+in this new `activity` I have used `@string/title_activity_share`, you can add those in `res/values`.
 
 So in `values/strings.xml`
 
@@ -348,28 +350,6 @@ So in `values/strings.xml`
 <resources>
     ...
     <string name="title_activity_share">MyShareEx</string>
-</resources>
-```
-
-and in `values/styles.xml`
-
-```xml
-<resources>
-    ...
-    <style name="Share.Window" parent="android:Theme">
-        <item name="android:windowEnterAnimation">@null</item>
-        <item name="android:windowExitAnimation">@null</item>
-    </style>
-
-    <style name="Theme.Share.Transparent" parent="android:Theme">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowAnimationStyle">@style/Share.Window</item>
-    </style>
 </resources>
 ```
 
@@ -421,7 +401,7 @@ So the `app.ios` and `app.android.js` refers to main app and `share.ios.js` and 
 import ShareExtension from 'rn-extensions-share'
 ...
 
-const { type, value } = await ShareExtension.data()
+const { type, value } = await ShareExtension.data(); // type = 'media' | 'text'
 ```
 
 - `close()`
@@ -575,9 +555,3 @@ Using the iOS Simulator and remote react-native debugger to develop the extensio
 1. If you're using react-native latest, error boundaries might help with JS errors. Another option is to catch render exceptions or test for errors, then render that output with something like a Text component. As long as your share app initializes, you should be able to see yellowbox/redbox errors. If you're not seeing them, you likely have an initialization issue.
 2. Disable bundling on the main target when debugging the extension target, it's not needed when you're not working with the main app.
 3. [Enable breaking on exceptions](http://blog.manbolo.com/2012/01/23/xcode-tips-1-break-on-exceptions). This is helpful if there are any exceptions in the extension itself; perhaps most useful if you've customized the native module.
-
-# Final note
-
-I have used `react-native-modalbox` module to handle the showing and hiding share extension which makes the experience more enjoyable for the user.
-
-Cheers
