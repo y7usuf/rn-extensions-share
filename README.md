@@ -236,7 +236,7 @@ package com.sample1.share;
 // import build config
 import com.sample1.BuildConfig;
 
-import com.djorkaeff.alexandre.shareextension.SharePackage;
+import chat.rocket.SharePackage;
 
 import android.app.Application;
 
@@ -288,7 +288,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
-import com.djorkaeff.alexandre.shareextension.SharePackage;
+import chat.rocket.SharePackage;
 
 import java.util.Arrays;
 import java.util.List;

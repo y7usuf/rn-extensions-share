@@ -1,4 +1,4 @@
-package com.djorkaeff.alexandre.shareextension;
+package chat.rocket;
 
 import android.content.Context;
 import android.database.Cursor;

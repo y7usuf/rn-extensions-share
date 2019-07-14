@@ -1,4 +1,4 @@
-package com.djorkaeff.alexandre.shareextension;
+package chat.rocket;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.JavaScriptModule;
