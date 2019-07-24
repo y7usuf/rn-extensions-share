@@ -84,10 +84,8 @@ RCT_REMAP_METHOD(data,
         [attachments enumerateObjectsUsingBlock:^(NSItemProvider *provider, NSUInteger idx, BOOL *stop) {
             if([provider hasItemConformingToTypeIdentifier:URL_IDENTIFIER]) {
                 urlProvider = provider;
-                *stop = YES;
             } else if ([provider hasItemConformingToTypeIdentifier:TEXT_IDENTIFIER]){
                 textProvider = provider;
-                *stop = YES;
             } else if ([provider hasItemConformingToTypeIdentifier:IMAGE_IDENTIFIER]){
                 imageProvider = provider;
                 *stop = YES;
@@ -102,7 +100,20 @@ RCT_REMAP_METHOD(data,
             }
         }];
 
-        if(urlProvider) {
+        if (urlProvider && textProvider) {
+            __block NSString *text;
+            __block NSString *url;
+            [urlProvider loadItemForTypeIdentifier:URL_IDENTIFIER options:nil completionHandler:^(id<NSSecureCoding> item, NSError *error) {
+                NSURL *urlItem = (NSURL *)item;
+                url = [urlItem absoluteString];
+                [textProvider loadItemForTypeIdentifier:TEXT_IDENTIFIER options:nil completionHandler:^(id<NSSecureCoding> item, NSError *error) {
+                    text = (NSString *)item;
+                    if(callback) {
+                        callback([NSString stringWithFormat:@"%@\n%@", text, url], @"text", nil);
+                    }
+                }];
+            }];
+        } else if (urlProvider) {
             [urlProvider loadItemForTypeIdentifier:URL_IDENTIFIER options:nil completionHandler:^(id<NSSecureCoding> item, NSError *error) {
                 NSURL *url = (NSURL *)item;
                 
@@ -114,7 +125,6 @@ RCT_REMAP_METHOD(data,
         } else if (imageProvider) {
             [imageProvider loadItemForTypeIdentifier:IMAGE_IDENTIFIER options:nil completionHandler:^(id<NSSecureCoding> item, NSError *error) {
                 UIImage *sharedImage;
-                NSString *filePath = nil;
                 NSString *fullPath = nil;
                 NSString *path = nil;
 
