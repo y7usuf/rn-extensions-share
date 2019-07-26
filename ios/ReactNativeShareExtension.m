@@ -43,16 +43,6 @@ RCT_EXPORT_METHOD(close) {
     exit(0);
 }
 
-
-
-RCT_EXPORT_METHOD(openURL:(NSString *)url) {
-  UIApplication *application = [UIApplication sharedApplication];
-  NSURL *urlToOpen = [NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-  [application openURL:urlToOpen options:@{} completionHandler: nil];
-}
-
-
-
 RCT_REMAP_METHOD(data,
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
